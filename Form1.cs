@@ -16,6 +16,7 @@ namespace ProyectoFTPSemLenll
 
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -86,6 +87,7 @@ namespace ProyectoFTPSemLenll
             // 
             // txtServidor
             // 
+            this.txtServidor.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.txtServidor.Location = new System.Drawing.Point(134, 18);
             this.txtServidor.Name = "txtServidor";
             this.txtServidor.Size = new System.Drawing.Size(126, 22);
@@ -93,6 +95,7 @@ namespace ProyectoFTPSemLenll
             // 
             // txtUsuario
             // 
+            this.txtUsuario.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.txtUsuario.Location = new System.Drawing.Point(134, 54);
             this.txtUsuario.Name = "txtUsuario";
             this.txtUsuario.Size = new System.Drawing.Size(126, 22);
@@ -100,6 +103,7 @@ namespace ProyectoFTPSemLenll
             // 
             // txtPassword
             // 
+            this.txtPassword.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.txtPassword.Location = new System.Drawing.Point(134, 88);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.PasswordChar = '*';
@@ -108,17 +112,19 @@ namespace ProyectoFTPSemLenll
             // 
             // btnConectar
             // 
+            this.btnConectar.BackColor = System.Drawing.Color.Lime;
             this.btnConectar.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnConectar.Location = new System.Drawing.Point(281, 78);
             this.btnConectar.Name = "btnConectar";
             this.btnConectar.Size = new System.Drawing.Size(99, 32);
             this.btnConectar.TabIndex = 8;
             this.btnConectar.Text = "Conectar";
-            this.btnConectar.UseVisualStyleBackColor = true;
+            this.btnConectar.UseVisualStyleBackColor = false;
             this.btnConectar.Click += new System.EventHandler(this.btnConectar_Click_1);
             // 
             // btnCargarArchivo
             // 
+            this.btnCargarArchivo.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.btnCargarArchivo.Enabled = false;
             this.btnCargarArchivo.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCargarArchivo.Location = new System.Drawing.Point(33, 396);
@@ -126,7 +132,7 @@ namespace ProyectoFTPSemLenll
             this.btnCargarArchivo.Size = new System.Drawing.Size(183, 32);
             this.btnCargarArchivo.TabIndex = 11;
             this.btnCargarArchivo.Text = "Subir Archivo";
-            this.btnCargarArchivo.UseVisualStyleBackColor = true;
+            this.btnCargarArchivo.UseVisualStyleBackColor = false;
             this.btnCargarArchivo.Click += new System.EventHandler(this.btnCargarArchivo_Click_1);
             // 
             // lblSeleccionarArchivoEstado
@@ -141,6 +147,7 @@ namespace ProyectoFTPSemLenll
             // 
             // btnDescargarArchivo
             // 
+            this.btnDescargarArchivo.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.btnDescargarArchivo.Enabled = false;
             this.btnDescargarArchivo.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDescargarArchivo.Location = new System.Drawing.Point(222, 396);
@@ -148,11 +155,12 @@ namespace ProyectoFTPSemLenll
             this.btnDescargarArchivo.Size = new System.Drawing.Size(183, 32);
             this.btnDescargarArchivo.TabIndex = 15;
             this.btnDescargarArchivo.Text = "Descargar";
-            this.btnDescargarArchivo.UseVisualStyleBackColor = true;
+            this.btnDescargarArchivo.UseVisualStyleBackColor = false;
             this.btnDescargarArchivo.Click += new System.EventHandler(this.btnDescargarArchivo_Click);
             // 
             // lstArchivosServidor
             // 
+            this.lstArchivosServidor.BackColor = System.Drawing.SystemColors.ScrollBar;
             this.lstArchivosServidor.Enabled = false;
             this.lstArchivosServidor.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lstArchivosServidor.FormattingEnabled = true;
@@ -171,6 +179,7 @@ namespace ProyectoFTPSemLenll
             // 
             // btnEliminarArchivo
             // 
+            this.btnEliminarArchivo.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.btnEliminarArchivo.Enabled = false;
             this.btnEliminarArchivo.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEliminarArchivo.Location = new System.Drawing.Point(411, 398);
@@ -178,11 +187,12 @@ namespace ProyectoFTPSemLenll
             this.btnEliminarArchivo.Size = new System.Drawing.Size(183, 32);
             this.btnEliminarArchivo.TabIndex = 18;
             this.btnEliminarArchivo.Text = "Eliminar";
-            this.btnEliminarArchivo.UseVisualStyleBackColor = true;
+            this.btnEliminarArchivo.UseVisualStyleBackColor = false;
             this.btnEliminarArchivo.Click += new System.EventHandler(this.btnEliminarArchivo_Click);
             // 
             // btnDesconectar
             // 
+            this.btnDesconectar.BackColor = System.Drawing.Color.IndianRed;
             this.btnDesconectar.Enabled = false;
             this.btnDesconectar.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDesconectar.Location = new System.Drawing.Point(401, 77);
@@ -190,11 +200,12 @@ namespace ProyectoFTPSemLenll
             this.btnDesconectar.Size = new System.Drawing.Size(124, 32);
             this.btnDesconectar.TabIndex = 19;
             this.btnDesconectar.Text = "Desconectar";
-            this.btnDesconectar.UseVisualStyleBackColor = true;
+            this.btnDesconectar.UseVisualStyleBackColor = false;
             this.btnDesconectar.Click += new System.EventHandler(this.btnDesconectar_Click);
             // 
             // MainForm
             // 
+            this.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.ClientSize = new System.Drawing.Size(640, 573);
             this.Controls.Add(this.btnDesconectar);
             this.Controls.Add(this.btnEliminarArchivo);
@@ -214,7 +225,9 @@ namespace ProyectoFTPSemLenll
             this.Controls.Add(this.label1);
             this.ForeColor = System.Drawing.Color.Black;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
+            this.Text = "Proyecto FTP";
             this.TransparencyKey = System.Drawing.SystemColors.ActiveCaption;
             this.ResumeLayout(false);
             this.PerformLayout();
