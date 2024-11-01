@@ -1,12 +1,8 @@
 ﻿using FluentFTP;
-using FluentFTP.Helpers;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace ProyectoFTPSemLenll
 {
@@ -35,6 +31,7 @@ namespace ProyectoFTPSemLenll
             this.lstArchivosServidor = new System.Windows.Forms.ListBox();
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.btnEliminarArchivo = new System.Windows.Forms.Button();
+            this.btnDesconectar = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -160,7 +157,7 @@ namespace ProyectoFTPSemLenll
             this.lstArchivosServidor.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lstArchivosServidor.FormattingEnabled = true;
             this.lstArchivosServidor.ItemHeight = 24;
-            this.lstArchivosServidor.Location = new System.Drawing.Point(33, 170);
+            this.lstArchivosServidor.Location = new System.Drawing.Point(24, 172);
             this.lstArchivosServidor.Name = "lstArchivosServidor";
             this.lstArchivosServidor.Size = new System.Drawing.Size(561, 220);
             this.lstArchivosServidor.TabIndex = 16;
@@ -174,6 +171,7 @@ namespace ProyectoFTPSemLenll
             // 
             // btnEliminarArchivo
             // 
+            this.btnEliminarArchivo.Enabled = false;
             this.btnEliminarArchivo.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEliminarArchivo.Location = new System.Drawing.Point(411, 398);
             this.btnEliminarArchivo.Name = "btnEliminarArchivo";
@@ -183,9 +181,22 @@ namespace ProyectoFTPSemLenll
             this.btnEliminarArchivo.UseVisualStyleBackColor = true;
             this.btnEliminarArchivo.Click += new System.EventHandler(this.btnEliminarArchivo_Click);
             // 
+            // btnDesconectar
+            // 
+            this.btnDesconectar.Enabled = false;
+            this.btnDesconectar.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDesconectar.Location = new System.Drawing.Point(401, 77);
+            this.btnDesconectar.Name = "btnDesconectar";
+            this.btnDesconectar.Size = new System.Drawing.Size(124, 32);
+            this.btnDesconectar.TabIndex = 19;
+            this.btnDesconectar.Text = "Desconectar";
+            this.btnDesconectar.UseVisualStyleBackColor = true;
+            this.btnDesconectar.Click += new System.EventHandler(this.btnDesconectar_Click);
+            // 
             // MainForm
             // 
-            this.ClientSize = new System.Drawing.Size(787, 548);
+            this.ClientSize = new System.Drawing.Size(640, 573);
+            this.Controls.Add(this.btnDesconectar);
             this.Controls.Add(this.btnEliminarArchivo);
             this.Controls.Add(this.progressBar);
             this.Controls.Add(this.lstArchivosServidor);
@@ -204,6 +215,7 @@ namespace ProyectoFTPSemLenll
             this.ForeColor = System.Drawing.Color.Black;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Name = "MainForm";
+            this.TransparencyKey = System.Drawing.SystemColors.ActiveCaption;
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -218,6 +230,7 @@ namespace ProyectoFTPSemLenll
             {
                 // Conecta al servidor FTP
                 ftpClient.Connect();
+                
 
                 // Actualiza el estado de la conexión
                 lblEstadoConexion.Text = "Conectado";
@@ -225,10 +238,12 @@ namespace ProyectoFTPSemLenll
                 txtPassword.Clear();
                 txtServidor.Clear();
                 txtUsuario.Clear();
-                // Muestra los componentes del módulo de carga
+                btnConectar.Enabled = false;
                 btnCargarArchivo.Enabled = true;
                 btnDescargarArchivo.Enabled = true;
+                btnEliminarArchivo.Enabled = true;
                 lstArchivosServidor.Enabled = true;
+                btnDesconectar.Enabled = true;
                 refrescarLista();
                 
             }
@@ -239,6 +254,9 @@ namespace ProyectoFTPSemLenll
                 lblEstadoConexion.ForeColor = Color.Red;
                 btnCargarArchivo.Enabled = false;
                 btnDescargarArchivo.Enabled = false;
+                lstArchivosServidor.Items.Clear();
+                lstArchivosServidor.Enabled= false;
+                btnEliminarArchivo.Enabled = false;
                 MessageBox.Show($"Error al conectar: {ex.Message}", "Error de Conexión", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtPassword.Clear();
                 txtServidor.Clear();
@@ -355,6 +373,80 @@ namespace ProyectoFTPSemLenll
                 MessageBox.Show("Por favor, asegúrese de seleccionar un archivo.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
+
+
+        private void btnEliminarArchivo_Click(object sender, EventArgs e)
+        {
+            // Verifica si el cliente FTP está conectado
+        if (ftpClient != null && ftpClient.IsConnected)
+            {
+                // Abre el diálogo para seleccionar el archivo en el servidor
+                if (lstArchivosServidor.SelectedItem != null)
+                {
+                    string archivoSeleccionado = lstArchivosServidor.SelectedItem.ToString();
+
+                    // Verifica si el archivo seleccionado no está vacío
+                    if (!string.IsNullOrEmpty(archivoSeleccionado))
+                    {
+                        // Muestra el cuadro de diálogo de confirmación
+                        DialogResult confirmacion = MessageBox.Show(
+                            "¿Está seguro de que desea eliminar el archivo seleccionado?",
+                            "Confirmar eliminación",
+                            MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Warning
+                        );
+
+                        // Si el usuario confirma la eliminación
+                        if (confirmacion == DialogResult.Yes)
+                        {
+                            try
+                            {
+                                // Inicia el valor del ProgressBar en 0
+                                progressBar.Value = 0;
+
+                                // Elimina el archivo en el servidor
+                                ftpClient.DeleteFile(archivoSeleccionado);
+
+                                // Verifica si el archivo aún existe en el servidor
+                                if (!ftpClient.FileExists(archivoSeleccionado))
+                                {
+                                    // Actualiza el ProgressBar al 100% si se eliminó con éxito
+                                    progressBar.Value = 100;
+                                    MessageBox.Show("Archivo eliminado con éxito.", "Eliminación Completa", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    progressBar.Value = 0;
+                                    refrescarLista();
+                                }
+                                else
+                                {
+                                    // Muestra un mensaje de error si no se pudo eliminar el archivo
+                                    MessageBox.Show("No se pudo eliminar el archivo. Verifique si el archivo existe.", "Error de eliminación", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                // Muestra un mensaje de error si ocurre algún problema durante la eliminación
+                                MessageBox.Show($"Error al eliminar el archivo: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        // Muestra un mensaje si no se selecciona ningún archivo
+                        MessageBox.Show("Debe seleccionar un archivo para eliminar.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                }
+                else
+                {
+                    // Muestra un mensaje si no hay selección en el ListBox
+                    MessageBox.Show("Debe seleccionar un archivo de la lista.", "Error de selección", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            else
+            {
+                // Muestra un mensaje de advertencia si el cliente no está conectado
+                MessageBox.Show("Debe estar conectado al servidor para eliminar un archivo.", "Error de conexión", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
         private void refrescarLista()
         {
             if (ftpClient != null && ftpClient.IsConnected)
@@ -393,69 +485,26 @@ namespace ProyectoFTPSemLenll
             }
         }
 
-        private void btnEliminarArchivo_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
-            // Verifica si el cliente FTP está conectado
-            // Verifica si el cliente FTP está conectado
-            if (ftpClient != null && ftpClient.IsConnected)
-            {
-                // Abre el diálogo para seleccionar el archivo en el servidor
-                if (lstArchivosServidor.SelectedItem != null)
-                {
-                    string archivoSeleccionado = lstArchivosServidor.SelectedItem.ToString();
+            ftpClient.Disconnect();
+        }
 
-                    // Verifica si el archivo seleccionado no está vacío
-                    if (!string.IsNullOrEmpty(archivoSeleccionado))
-                    {
-                        try
-                        {
-                            // Inicia el valor del ProgressBar en 0
-                            progressBar.Value = 0;
-
-                            // Elimina el archivo en el servidor
-                            ftpClient.DeleteFile(archivoSeleccionado);
-
-                            // Verifica si el archivo aún existe en el servidor
-                            if (!ftpClient.FileExists(archivoSeleccionado))
-                            {
-                                // Actualiza el ProgressBar al 100% si se eliminó con éxito
-                                progressBar.Value = 100;
-                                MessageBox.Show("Archivo eliminado con éxito.", "Eliminación Completa", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                refrescarLista();
-                                progressBar.Value = 0;
-                            }
-                            else
-                            {
-                                // Muestra un mensaje de error si no se pudo eliminar el archivo
-                                MessageBox.Show("No se pudo eliminar el archivo. Verifique si el archivo existe.", "Error de eliminación", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                progressBar.Value = 0;
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            // Muestra un mensaje de error si ocurre algún problema durante la eliminación
-                            MessageBox.Show($"Error al eliminar el archivo.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            progressBar.Value = 0;
-                        }
-                    }
-                    else
-                    {
-                        // Muestra un mensaje si no se selecciona ningún archivo
-                        MessageBox.Show("Debe seleccionar un archivo para eliminar.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        progressBar.Value = 0;
-                    }
-                }
-                else
-                {
-                    // Muestra un mensaje si no hay selección en el ListBox
-                    MessageBox.Show("Debe seleccionar un archivo de la lista.", "Error de selección", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-            }
-            else
-            {
-                // Muestra un mensaje de advertencia si el cliente no está conectado
-                MessageBox.Show("Debe estar conectado al servidor para eliminar un archivo.", "Error de conexión", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
+        private void btnDesconectar_Click(object sender, EventArgs e)
+        {
+            ftpClient.Disconnect();
+            lblEstadoConexion.Text = "Desconectado";
+            lblEstadoConexion.ForeColor = Color.Red;
+            btnCargarArchivo.Enabled = false;
+            btnDescargarArchivo.Enabled = false;
+            lstArchivosServidor.Items.Clear();
+            lstArchivosServidor.Enabled = false;
+            btnEliminarArchivo.Enabled = false;
+            btnConectar.Enabled = true;
+            MessageBox.Show($"Se ha desconectado con éxito. ", "Finalizó la conexión", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            txtPassword.Clear();
+            txtServidor.Clear();
+            txtUsuario.Clear();
         }
     }
 }

@@ -31,6 +31,7 @@
         private ListBox lstArchivosServidor;
         private ProgressBar progressBar;
         private Button btnEliminarArchivo;
+        private Button btnDesconectar;
     }
 }
 
