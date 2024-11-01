@@ -1,0 +1,13 @@
+Pasos para configurar el proyecto utilizando el servidor ftp proporcionado por DRIVEHQ:
+
+https://www.drivehq.com/ ----> enlace de la pagina.
+
+1) crear su cuenta gratuita (pueden iniciar con google para mayor rapidez)
+2) en caso de no crearles una contraseña, pueden recuperarla para así asignarle una que ustedes recuerden.
+3) la ruta por defecto del servidor es: ftp.drivehq.com 
+4) para que su proyecto utilice la librería FluentFTP, deben ir a la pestaña "proyectos" en su VS, y luego en administrar paquetes NuGet.
+al abrirse la pestaña, ingresen a examinar y busquen la librería FluentFTP e instálenla. Esto hará que la librería se implemente en su proyecto.
+5) crear las modificaciones necesarias para implementar la actividad asignada por el grupo 12.
+
+
+cualquier duda, comuníquense con alguno del grupo o a traves del aula si hay foros creados para tal fin.
